@@ -11,4 +11,5 @@ interface CollectionRepositoryInterface
     public function findById(int $id): Model;
     public function create(array $input);
     public function update(Model $collection, array $input): Model;
+    public function delete(int $id): void;
 }

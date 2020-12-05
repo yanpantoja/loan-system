@@ -4,7 +4,7 @@ namespace App\Http\Requests\Book;
 
 use \Urameshibr\Requests\FormRequest;
 
-class BookDeleteRequest extends FormRequest
+class CollectionUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

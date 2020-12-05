@@ -6,6 +6,6 @@ $router->get('/', function () use ($router) {
     return "Hello world!";
 });
 
-$router->get('/books', 'BooksController@index');
+$router->get('/books', 'CollectionsController@index');
 $router->post('/books', 'BooksController@store');
 $router->put('/books/{id}', 'BooksController@update');

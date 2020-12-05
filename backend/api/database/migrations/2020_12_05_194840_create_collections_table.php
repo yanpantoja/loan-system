@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDvdsTable extends Migration
+class CreateCollectionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,16 @@ class CreateDvdsTable extends Migration
      */
     public function up()
     {
-        Schema::create('dvds', function (Blueprint $table) {
+        Schema::create('collections', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->nullable()->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->unsignedInteger("collection_id");
+            $table->string("collection_type");
+
             $table->string('name');
+            $table->boolean('loaned')->default(false);
             $table->timestamps();
         });
     }
@@ -27,6 +34,6 @@ class CreateDvdsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dvds');
+        Schema::dropIfExists('collections');
     }
 }

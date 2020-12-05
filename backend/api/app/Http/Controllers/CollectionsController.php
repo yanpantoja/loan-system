@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Book\{BookCreateRequest, BookUpdateRequest};
+use App\Http\Requests\Book\{CollectionCreateRequest, CollectionUpdateRequest};
 use App\Repositories\Contracts\CollectionRepositoryInterface;
 
-class BooksController extends Controller
+class CollectionsController extends Controller
 {
-
-    private $collectionRepository;
+    protected $collectionRepository;
 
     public function __construct(
         CollectionRepositoryInterface $collectionRepository
@@ -22,20 +21,20 @@ class BooksController extends Controller
         return $this->collectionRepository->findAll();
     }
 
-    public function store(BookCreateRequest $request)
+    public function store(CollectionCreateRequest $request)
     {
         $input = $request->all();
         return $this->collectionRepository->create($input);
     }
 
-    public function update(int $id, BookUpdateRequest $request)
+    public function update(int $id, CollectionUpdateRequest $request)
     {
         $book = $this->collectionRepository->findById($id);
 
         if(is_null($book)){
             return response()->json([
                 'status' => 'error',
-                'message' => 'O livro não foi encontrado.'
+                'message' => 'Coleção não encontrada.'
             ], 404);
         }
 
@@ -49,7 +48,7 @@ class BooksController extends Controller
         if(is_null($this->collectionRepository->findById($id))){
             return response()->json([
                 'status' => 'error',
-                'message' => 'O livro não foi encontrado.'
+                'message' => 'Coleção não encontrada.'
             ], 404);
         }
 

@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(
             'App\Repositories\Contracts\CollectionRepositoryInterface',
-            'App\Repositories\Eloquent\Collections\BookRepository'
+            'App\Repositories\Eloquent\Collections\CollectionRepository'
         );
     }
 }

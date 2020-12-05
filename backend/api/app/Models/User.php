@@ -12,8 +12,8 @@ class User extends Model
         'email',
     ];
 
-    public function books()
+    public function collections()
     {
-        return $this->hasMany(Book::class);
+        return $this->hasMany(Collection::class);
     }
 }

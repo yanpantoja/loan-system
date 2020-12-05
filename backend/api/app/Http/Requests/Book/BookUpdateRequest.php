@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Book;
 
 use \Urameshibr\Requests\FormRequest;
 
-class BookCreateRequest extends FormRequest
+class BookUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,8 @@ class BookCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required'
+            'name' => 'required',
+            'loaned' => 'required|boolean'
         ];
     }
 
@@ -32,7 +33,8 @@ class BookCreateRequest extends FormRequest
     {
         return [
             'name.required' => 'O nome do livro é obrigatório.',
-            'name.string' => 'Nome inválido.'
+            'loaned.required' => 'Favor informar se o livro está emprestado.',
+            'loaned.boolean' => 'Atributo :attribute inválido.',
         ];
     }
 }

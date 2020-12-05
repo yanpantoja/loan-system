@@ -8,3 +8,4 @@ $router->get('/', function () use ($router) {
 
 $router->get('/books', 'BooksController@index');
 $router->post('/books', 'BooksController@store');
+$router->put('/books/{id}', 'BooksController@update');

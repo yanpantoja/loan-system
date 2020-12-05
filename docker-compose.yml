@@ -1,0 +1,46 @@
+version: "3.3"
+
+services:
+  db:
+    container_name: mysql
+    image: mysql:5.7
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: root
+
+  nginx:
+    container_name: nginx
+    build: backend/images/nginx
+    command: nginx -g "daemon off;"
+    links:
+      - php
+    ports:
+      - "3000:80"
+    depends_on:
+      - db
+
+  php:
+    container_name: phpdocker
+    build: backend/images/php
+    volumes:
+      - ./backend/api:/var/www/html
+    working_dir: /var/www/html/app/public
+    command: php-fpm
+    links:
+      - db:db
+    ports:
+      - "9000:9000"
+    depends_on:
+      - db
+
+  app:
+    build: frontend/
+    volumes:
+        - ./frontend:/app
+    working_dir: /app
+    ports:
+        - 8080:8080
+    command: ['yarn', 'serve']

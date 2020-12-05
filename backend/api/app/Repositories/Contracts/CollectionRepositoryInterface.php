@@ -2,14 +2,13 @@
 
 namespace App\Repositories\Contracts;
 
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Collection;
 
 interface CollectionRepositoryInterface
 {
-    public function findAll(): Collection;
-    public function findById(int $id): Model;
-    public function create(array $input);
-    public function update(Model $collection, array $input): Model;
+    public function findAll(): ?\Illuminate\Database\Eloquent\Collection;
+    public function findById(int $id): ?Collection;
+    public function store(array $input): Collection;
+    public function update(Collection $collection, array $input);
     public function delete(int $id): void;
 }

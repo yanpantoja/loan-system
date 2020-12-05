@@ -6,6 +6,8 @@ $router->get('/', function () use ($router) {
     return "Hello world!";
 });
 
-$router->get('/books', 'CollectionsController@index');
-$router->post('/books', 'BooksController@store');
-$router->put('/books/{id}', 'BooksController@update');
+$router->get('/collections', 'CollectionsController@index');
+$router->post('/collections', 'CollectionsController@store');
+$router->put('/collections/{id}', 'CollectionsController@update');
+$router->delete('/collections/{id}', 'CollectionsController@destroy');
+

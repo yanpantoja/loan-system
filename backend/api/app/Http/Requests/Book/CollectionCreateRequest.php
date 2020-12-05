@@ -24,7 +24,8 @@ class CollectionCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required'
+            'name' => 'required',
+            'collection_type' => 'required|string'
         ];
     }
 
@@ -32,7 +33,8 @@ class CollectionCreateRequest extends FormRequest
     {
         return [
             'name.required' => 'O nome do livro é obrigatório.',
-            'name.string' => 'Nome inválido.'
+            'name.string' => 'Nome inválido.',
+            'collection_type.required' => 'O tipo da coleção é obrigatório.'
         ];
     }
 }

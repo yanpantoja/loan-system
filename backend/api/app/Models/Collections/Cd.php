@@ -2,6 +2,7 @@
 
 namespace App\Models\Collections;
 
+use App\Models\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 class Cd extends Model
@@ -11,8 +12,8 @@ class Cd extends Model
         'loaned',
     ];
 
-    public function users()
+    public function collections()
     {
-        return $this->hasMany(User::class);
+        return $this->morphOne(Collection::class, 'collection');
     }
 }

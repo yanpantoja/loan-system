@@ -12,7 +12,7 @@ class Book extends Model
         'loaned',
     ];
 
-    public function requirements()
+    public function collections()
     {
         return $this->morphOne(Collection::class, 'collection');
     }

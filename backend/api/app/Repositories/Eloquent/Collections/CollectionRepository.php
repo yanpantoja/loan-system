@@ -2,50 +2,45 @@
 
 namespace App\Repositories\Eloquent\Collections;
 
-use App\Models\Book;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Collection;
+use App\Repositories\Contracts\CollectionRepositoryInterface;
 
-class CollectionRepository
+class CollectionRepository implements CollectionRepositoryInterface
 {
-    protected $model;
 
-    public function __construct()
+    public function findAll(): ?\Illuminate\Database\Eloquent\Collection
     {
-        $this->model = $this->resolveModel();
+        return Collection::all();
     }
 
-    public function findAll(): Collection
+    public function findById(int $id): ?Collection
     {
-        return  $this->model->all();
+        return Collection::where('id', $id)->first();
     }
 
-    public function findById(int $id): Model
+    public function store(array $input): Collection
     {
-        return  $this->model->where('id', $id)->first();
+        $model = app($input['collection_type']);
+
+        return $model->create($input)->collections()->create($input);
     }
 
-    public function create(array $input): Book
+    public function update(Collection $collection, array $input): Collection
     {
-        return  $this->model->create($input);
-    }
-
-    public function update(Model $book, array $input): Model
-    {
-        $book->user_id = $input['user_id'];
-        $book->name = $input['name'];
-        $book->loaned = $input['loaned'];
-        $book->save();
-        return $book;
+        $collection->fill($input);
+        $collection->save();
+        $collectionType = $collection->collection()->first();
+        $collectionType->name = $input['name'];
+        $collectionType->save();
+        return $collection;
     }
 
     public function delete(int $id): void
     {
-        $this->model->destroy($id);
+        $collection = Collection::where('id', $id)->first();
+        $collectionType = $collection->collection()->first();
+        $collection->delete();
+        $collectionType->delete();
     }
 
-    protected function resolveModel()
-    {
-        return app($this->model);
-    }
 }

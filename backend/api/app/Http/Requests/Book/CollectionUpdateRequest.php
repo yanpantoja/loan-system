@@ -25,7 +25,8 @@ class CollectionUpdateRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'loaned' => 'required|boolean'
+            'loaned' => 'required|boolean',
+            'collection_type' => 'string'
         ];
     }
 
@@ -35,6 +36,7 @@ class CollectionUpdateRequest extends FormRequest
             'name.required' => 'O nome do livro é obrigatório.',
             'loaned.required' => 'Favor informar se o livro está emprestado.',
             'loaned.boolean' => 'Atributo :attribute inválido.',
+            'collection_type.required' => 'O tipo da coleção é obrigatório.'
         ];
     }
 }

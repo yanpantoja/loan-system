@@ -2,36 +2,48 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Book\{CollectionCreateRequest, CollectionUpdateRequest};
 use App\Repositories\Contracts\CollectionRepositoryInterface;
+use App\Http\Requests\Book\{CollectionCreateRequest, CollectionUpdateRequest};
 
 class CollectionsController extends Controller
 {
     protected $collectionRepository;
 
-    public function __construct(
-        CollectionRepositoryInterface $collectionRepository
-    )
+    public function __construct(CollectionRepositoryInterface $collectionRepository)
     {
         $this->collectionRepository = $collectionRepository;
     }
 
     public function index()
     {
-        return $this->collectionRepository->findAll();
+        $collections = $this->collectionRepository->findAll();
+
+        if(is_null($collections)) {
+            return response()->json('', 204);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => $collections
+        ], 201);
     }
 
     public function store(CollectionCreateRequest $request)
     {
         $input = $request->all();
-        return $this->collectionRepository->create($input);
+        $collection = $this->collectionRepository->store($input);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => $collection
+        ], 201);
     }
 
     public function update(int $id, CollectionUpdateRequest $request)
     {
-        $book = $this->collectionRepository->findById($id);
+        $collection = $this->collectionRepository->findById($id);
 
-        if(is_null($book)){
+        if(is_null($collection)){
             return response()->json([
                 'status' => 'error',
                 'message' => 'Coleção não encontrada.'
@@ -40,7 +52,12 @@ class CollectionsController extends Controller
 
         $input = $request->all();
 
-        return $this->collectionRepository->update($book, $input);
+        $collectionUpdated = $this->collectionRepository->update($collection, $input);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => $collectionUpdated
+        ], 200);
     }
 
     public function destroy(int $id)

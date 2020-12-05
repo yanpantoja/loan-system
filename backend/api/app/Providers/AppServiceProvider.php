@@ -17,5 +17,20 @@ class AppServiceProvider extends ServiceProvider
             'App\Repositories\Contracts\CollectionRepositoryInterface',
             'App\Repositories\Eloquent\Collections\CollectionRepository'
         );
+
+        $this->app->bind(
+            'books',
+            'App\Models\Collections\Book'
+        );
+
+        $this->app->bind(
+            'cds',
+            'App\Models\Collections\Cd'
+        );
+
+        $this->app->bind(
+            'dvds',
+            'App\Models\Collections\Dvd'
+        );
     }
 }

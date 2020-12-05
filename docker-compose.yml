@@ -8,8 +8,8 @@ services:
     ports:
       - "3306:3306"
     environment:
+      MYSQL_DATABASE: loan-system
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: root
 
   nginx:
     container_name: nginx

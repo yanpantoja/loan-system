@@ -8,10 +8,12 @@ class User extends Model
 {
 
     protected $fillable = [
-        'name', 'email',
+        'name',
+        'email',
     ];
 
-    protected $hidden = [
-        'password',
-    ];
+    public function books()
+    {
+        return $this->hasMany(Book::class);
+    }
 }

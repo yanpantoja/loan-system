@@ -25,4 +25,14 @@ class Collection extends Model
     {
         return $this->morphTo();
     }
+
+    public function getLoanedAttribute($value)
+    {
+        if($value === 0) {
+            return "Não";
+        }
+
+        return "Sim";
+    }
+    
 }

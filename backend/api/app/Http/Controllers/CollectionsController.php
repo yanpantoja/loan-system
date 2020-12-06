@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\Contracts\CollectionRepositoryInterface;
-use App\Http\Requests\Book\{CollectionCreateRequest, CollectionUpdateRequest};
+use App\Http\Requests\Collection\{CollectionCreateRequest, CollectionUpdateRequest};
 
 class CollectionsController extends Controller
 {
@@ -57,7 +57,7 @@ class CollectionsController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => $collectionUpdated
-        ], 200);
+        ]);
     }
 
     public function destroy(int $id)

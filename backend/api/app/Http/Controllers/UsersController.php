@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\User\UserCreateRequest;
 use App\Repositories\Eloquent\Users\UserRepository;
-use Illuminate\Http\Request;
 
 class UsersController extends Controller
 {

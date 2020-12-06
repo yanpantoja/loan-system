@@ -4,18 +4,22 @@ namespace App\Repositories\Eloquent\Collections;
 
 use App\Models\Collection;
 use App\Repositories\Contracts\CollectionRepositoryInterface;
+use Illuminate\Contracts\Pagination\Paginator;
+
 
 class CollectionRepository implements CollectionRepositoryInterface
 {
 
-    public function findAll(): ?\Illuminate\Database\Eloquent\Collection
+    public function findAll(int $items): Paginator
     {
-        return Collection::all();
+        return Collection::with('collection')->simplePaginate($items);
     }
 
-    public function findById(int $id): ?Collection
+    public function findById(int $id): ?object
     {
-        return Collection::where('id', $id)->first();
+        return Collection::where('id', $id)
+            ->with('collection')
+            ->first();
     }
 
     public function store(array $input): Collection
@@ -25,7 +29,7 @@ class CollectionRepository implements CollectionRepositoryInterface
         return $model->create($input)->collections()->create($input);
     }
 
-    public function update(Collection $collection, array $input): Collection
+    public function update(object $collection, array $input): object
     {
         $collection->fill($input);
         $collection->save();

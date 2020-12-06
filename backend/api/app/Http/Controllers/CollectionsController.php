@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Repositories\Contracts\CollectionRepositoryInterface;
 use App\Http\Requests\Collection\{CollectionCreateRequest, CollectionUpdateRequest};
+use Illuminate\Http\Request;
 
 class CollectionsController extends Controller
 {
@@ -14,18 +15,15 @@ class CollectionsController extends Controller
         $this->collectionRepository = $collectionRepository;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $collections = $this->collectionRepository->findAll();
+        $collections = $this->collectionRepository->findAll($request->items);
 
         if(is_null($collections)) {
             return response()->json('', 204);
         }
 
-        return response()->json([
-            'status' => 'success',
-            'message' => $collections
-        ], 201);
+        return response()->json($collections, 201);
     }
 
     public function store(CollectionCreateRequest $request)

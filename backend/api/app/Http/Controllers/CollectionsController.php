@@ -15,9 +15,9 @@ class CollectionsController extends Controller
         $this->collectionRepository = $collectionRepository;
     }
 
-    public function index(Request $request)
+    public function index()
     {
-        $collections = $this->collectionRepository->findAll($request->items);
+        $collections = $this->collectionRepository->findAll();
 
         if(is_null($collections)) {
             return response()->json('', 204);

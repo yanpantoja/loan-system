@@ -8,66 +8,162 @@
 
     <div class="col-md-10 rounded mx-auto shadow bg-white text-left pb-4">
 
-        <Form />
+        <form @submit.prevent="salvar">
+            <div class="row">
+                <div class="col-12 mt-4">
+                    <ul>
+                        <li v-for="(error, index) of errors" :key="index">
+                            <div class="alert alert-danger" role="alert">
+                                {{ error[0] }}
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-12 form-group">
+                    <label class="col-form-label col-form-label-lg">Nome</label>
+                    <input type="text" placeholder="Nome da coleção" class="form-control" v-model="collection.name">
+                </div>
+                <div class="col-12 form-group">
+                    <label class="col-form-label col-form-label-lg">Tipo</label>
+                    <select class="form-control form-control" v-model="collection.collection_type">
+                        <option value="">Selecione o tipo da coleção</option>
+                        <option :value="type" :key="index" v-for="(type, index) in typesCollections">{{ type }}</option>
+                    </select>
+                </div>
+                <div class="col-12 form-group">
+                    <label class="col-form-label col-form-label-lg">Sua coleção está emprestada?</label>
+                    <select class="form-control form-control" v-model="collection.loaned">
+                        <option value="Não">Não</option>
+                        <option value="Sim">Sim</option>
+                    </select>
+                </div>
+                <div class="col-12 form-group">
+                    <label class="col-form-label col-form-label-lg">Se sim, para quem?</label>
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <input type="text" placeholder="Nome da pessoa" class="form-control form-control">
+                        </div>
+                        <div class="form-group col-6">
+                            <input type="text" placeholder="E-mail de contato" class="form-control form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 form-group text-center">
+                    <button class="btn btn-primary btn-lg col-3">Salvar</button>
+                </div>
+            </div>
+        </form>
 
         <div>
-            <table class="table table-bordered mt-5">
+            <table class="table table-bordered mt-5 text-center">
                 <thead>
                     <tr>
-                        <th scope="col">Day</th>
-                        <th scope="col">Article Name</th>
-                        <th scope="col">Author</th>
-                        <th scope="col">Shares</th>
-                        <th scope="col">Actions</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Emprestado</th>
+                        <th scope="col">Opções</th>
                     </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Bootstrap 4 CDN and Starter Template</td>
-                    <td>Cristina</td>
-                    <td>2.846</td>
+                <tr v-for="collection of collections" :key="collection.id">
+                    <td>{{collection.name}}</td>
+                    <td>{{collection.collection_type.split("\\")[3]}}</td>
+                    <td>{{collection.loaned}}</td>
                     <td>
-                        <button type="button" class="btn btn-success"><i class="fas fa-edit"></i></button>
-                        <button type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Bootstrap Grid 4 Tutorial and Examples</td>
-                    <td>Cristina</td>
-                    <td>3.417</td>
-                    <td>
-                        <button type="button" class="btn btn-success"><i class="fas fa-edit"></i></button>
-                        <button type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Bootstrap Flexbox Tutorial and Examples</td>
-                    <td>Cristina</td>
-                    <td>1.234</td>
-                    <td>
-                        <button type="button" class="btn btn-success"><i class="fas fa-edit"></i></button>
+                        <button @click="editar(collection)" type="button" class="btn btn-success"><i class="fas fa-edit"></i></button>
                         <button type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
+        <div class="row">
+            <div class="mx-auto">
+                <vc-pagination :source="pagination" @navigate="navigate"></vc-pagination>
+            </div>
+        </div>
     </div>
   </div>
 </template>
 
 <script>
-import Form from './components/Form.vue'
+import Collections from './services/collections'
+import VcPagination from './components/Pagination'
 
 export default {
-  name: 'App',
-  components: {
-    Form
-  }
+
+    components: {
+        VcPagination
+    },
+
+    data() {
+        return {
+            collection: {
+                id: '',
+                name: '',
+                collection_type: '',
+            },
+            collections: [],
+            errors: [],
+            typesCollections: [
+                'Livro',
+                'Cd',
+                'Dvd'
+            ],
+            pagination: {}
+        }
+    },
+
+    mounted() {
+        this.listar()
+    },
+
+    methods: {
+
+        listar() {
+            Collections.listar().then(response => {
+                this.collections = response.data.data
+                this.pagination = response.data
+            })
+        },
+
+        salvar() {
+            if(!this.collection.id) {
+                Collections.salvar(this.collection).then(response => {
+                    this.collection = {}
+                    alert(response.data.message.name + ' salvo com sucesso!')
+                    this.listar()
+                    this.errors = []
+                }).catch(e => {
+                    console.log(e.response.data)
+                    this.errors = e.response.data
+                })
+            }else {
+                Collections.atualizar(this.collection, this.collection.id).then(response => {
+                    this.collection = {}
+                    alert(response.data.message.name + ' atualizado com sucesso!')
+                    this.listar()
+                    this.errors = []
+                }).catch(e => {
+                    console.log(e.response.data)
+                    this.errors = e.response.data
+                })
+            }
+        },
+
+        editar(collection) {
+            this.collection = collection
+        },
+
+        navigate(page) {
+            Collections.navigate(page).then(response => {
+                this.collections = response.data.data
+                this.pagination = response.data
+            })
+        }
+    }
 }
+
 </script>
 
 <style>

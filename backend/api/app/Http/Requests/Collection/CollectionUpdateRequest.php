@@ -25,7 +25,7 @@ class CollectionUpdateRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'loaned' => 'required|boolean',
+            'loaned' => 'required',
             'collection_type' => 'string'
         ];
     }

@@ -34,5 +34,14 @@ class Collection extends Model
 
         return "Sim";
     }
-    
+
+    public function setLoanedAttribute($value)
+    {
+       if($value == "Não") {
+           return $this->attributes['loaned'] = 0;
+       }
+
+       return $this->attributes['loaned'] = 1;
+    }
+
 }

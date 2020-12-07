@@ -3,7 +3,11 @@ import { http } from './config';
 export default {
 
     listar:() => {
-        return http.get('collections?items=100')
+        return http.get('collections')
+    },
+
+    navigate:(page) => {
+        return http.get('collections?page='+page)
     },
 
     salvar:(collection) => {

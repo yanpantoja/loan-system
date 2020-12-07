@@ -3,11 +3,11 @@
 namespace App\Repositories\Contracts;
 
 use App\Models\Collection;
-use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface CollectionRepositoryInterface
 {
-    public function findAll(int $items): Paginator;
+    public function findAll(): LengthAwarePaginator;
     public function findById(int $id): ?object;
     public function store(array $input): Collection;
     public function update(object $collection, array $input): object;

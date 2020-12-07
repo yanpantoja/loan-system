@@ -4,15 +4,15 @@ namespace App\Repositories\Eloquent\Collections;
 
 use App\Models\Collection;
 use App\Repositories\Contracts\CollectionRepositoryInterface;
-use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 
 class CollectionRepository implements CollectionRepositoryInterface
 {
 
-    public function findAll(int $items): Paginator
+    public function findAll(): LengthAwarePaginator
     {
-        return Collection::with('collection')->simplePaginate($items);
+        return Collection::with('collection')->paginate(3);
     }
 
     public function findById(int $id): ?object
@@ -26,7 +26,9 @@ class CollectionRepository implements CollectionRepositoryInterface
     {
         $model = app($input['collection_type']);
 
-        return $model->create($input)->collections()->create($input);
+        return $model->create([
+            'name' => $input['name']
+        ])->collections()->create($input);
     }
 
     public function update(object $collection, array $input): object

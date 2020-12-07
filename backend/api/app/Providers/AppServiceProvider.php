@@ -19,17 +19,17 @@ class AppServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
-            'books',
+            'Livro',
             'App\Models\Collections\Book'
         );
 
         $this->app->bind(
-            'cds',
+            'Cd',
             'App\Models\Collections\Cd'
         );
 
         $this->app->bind(
-            'dvds',
+            'Dvd',
             'App\Models\Collections\Dvd'
         );
     }

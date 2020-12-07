@@ -12,5 +12,9 @@ export default {
 
     atualizar:(collection, id) => {
         return http.put('collections/'+id, collection)
+    },
+
+    apagar:(collection, id) => {
+        return http.delete('collections/'+id, {data: collection})
     }
 }

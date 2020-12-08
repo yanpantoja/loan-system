@@ -33,7 +33,7 @@ class CollectionUpdateRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'O nome do livro é obrigatório.',
+            'name.required' => 'O nome da coleção é obrigatório.',
             'loaned.required' => 'Favor informar se o livro está emprestado.',
             'loaned.boolean' => 'Atributo :attribute inválido.',
             'collection_type.required' => 'O tipo da coleção é obrigatório.'

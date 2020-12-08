@@ -11,14 +11,15 @@
         <form @submit.prevent="salvar">
             <div class="row">
                 <div class="col-12 mt-4">
-                    <ul>
-                        <li v-for="(error, index) of errors" :key="index">
-                            <div class="alert alert-danger" role="alert">
-                                {{ error[0] }}
-                            </div>
-                        </li>
-                    </ul>
+                  <div v-for="(error, index) of errors" :key="index" class="alert alert-danger" role="alert">
+                      {{ error[0] }}
+                  </div>
                 </div>
+
+                <div class="mx-auto text-center">
+                    <h2>Cadastrar nova coleção</h2>
+                </div>
+
                 <div class="col-12 form-group">
                     <label class="col-form-label col-form-label-lg">Nome</label>
                     <input type="text" placeholder="Nome da coleção" class="form-control" v-model="collection.name">
@@ -37,14 +38,14 @@
                         <option value="Sim">Sim</option>
                     </select>
                 </div>
-                <div class="col-12 form-group">
-                    <label class="col-form-label col-form-label-lg">Se sim, para quem?</label>
+                <div class="col-12 form-group" v-if="collection.loaned === 'Sim'">
+                    <label class="col-form-label col-form-label-lg">Para quem?</label>
                     <div class="form-row">
                         <div class="form-group col-6">
-                            <input type="text" placeholder="Nome da pessoa" class="form-control form-control">
+                            <input type="text" placeholder="Nome da pessoa" class="form-control form-control" v-model="collection.user_name">
                         </div>
                         <div class="form-group col-6">
-                            <input type="text" placeholder="E-mail de contato" class="form-control form-control">
+                            <input type="text" placeholder="E-mail de contato" class="form-control form-control" v-model="collection.email">
                         </div>
                     </div>
                 </div>
@@ -53,22 +54,40 @@
                 </div>
             </div>
         </form>
+        <hr>
 
-        <div>
+        <div class="row mt-4">
+
+            <div class="mx-auto text-center">
+                    <h2>Lista de coleções</h2>
+            </div>
+
             <table class="table table-bordered mt-5 text-center">
                 <thead>
                     <tr>
                         <th scope="col">Nome</th>
                         <th scope="col">Tipo</th>
                         <th scope="col">Emprestado</th>
+                        <th scope="col">
+                          <div class="col-md-12">
+                            <div>Nome</div>
+                            <div>E-mail</div>
+                          </div>
+                        </th>
                         <th scope="col">Opções</th>
                     </tr>
                 </thead>
                 <tbody>
                 <tr v-for="collection of collections" :key="collection.id">
-                    <td>{{collection.name}}</td>
-                    <td>{{collection.collection_type.split("\\")[3]}}</td>
-                    <td>{{collection.loaned}}</td>
+                    <td class="align-middle">{{collection.name}}</td>
+                    <td class="align-middle">{{collection.collection_type.split("\\")[3]}}</td>
+                    <td class="align-middle">{{collection.loaned}}</td>
+                    <td class="align-middle">
+                      <div class="col-md-12">
+                        <div>{{collection.user_name}}</div>
+                        <div><p class="font-italic"><small>{{collection.email}}</small></p></div>
+                      </div>
+                    </td>
                     <td>
                         <button @click="editar(collection)" type="button" class="btn btn-success"><i class="fas fa-edit"></i></button>
                         <button type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
@@ -101,7 +120,10 @@ export default {
             collection: {
                 id: '',
                 name: '',
+                user_name: '',
+                email: '',
                 collection_type: '',
+                loaned: 'Não',
             },
             collections: [],
             errors: [],
@@ -122,6 +144,7 @@ export default {
 
         listar() {
             Collections.listar().then(response => {
+              console.log(response.data.data)
                 this.collections = response.data.data
                 this.pagination = response.data
             })

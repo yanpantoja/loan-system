@@ -14,8 +14,21 @@ class User extends Model
         'email',
     ];
 
+    protected $appends = ['user_name'];
+
+    protected $maps = [
+        'name' => 'user_name',
+    ];
+
+    protected $hidden = ['name'];
+
     public function collections()
     {
         return $this->hasMany(Collection::class);
+    }
+
+    public function getUserNameAttribute()
+    {
+        return $this->attributes['name'];
     }
 }

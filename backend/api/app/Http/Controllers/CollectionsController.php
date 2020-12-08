@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Repositories\Contracts\CollectionRepositoryInterface;
 use App\Http\Requests\Collection\{CollectionCreateRequest, CollectionUpdateRequest};
-use Illuminate\Http\Request;
 
 class CollectionsController extends Controller
 {

@@ -3,16 +3,29 @@
 namespace App\Repositories\Eloquent\Collections;
 
 use App\Models\Collection;
+use App\Models\User;
 use App\Repositories\Contracts\CollectionRepositoryInterface;
+use App\Services\UserService;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 
 
 class CollectionRepository implements CollectionRepositoryInterface
 {
 
-    public function findAll(): LengthAwarePaginator
+    protected  $userService;
+
+    public function __construct(UserService $userService)
     {
-        return Collection::with('collection')->paginate(3);
+        $this->userService = $userService;
+    }
+
+    public function findAll()
+    {
+        return Collection::with('collection')
+            ->leftJoin('users AS u', 'collections.user_id', '=','u.id')
+            ->select('collections.*', 'u.name AS user_name', 'u.email')
+            ->paginate(3);
     }
 
     public function findById(int $id): ?object
@@ -26,6 +39,10 @@ class CollectionRepository implements CollectionRepositoryInterface
     {
         $model = app($input['collection_type']);
 
+        if(!empty($input['email'])) {
+            $input['user_id'] = $this->userService->defineUserWhoLoaned($input);
+        }
+
         return $model->create([
             'name' => $input['name']
         ])->collections()->create($input);
@@ -33,11 +50,24 @@ class CollectionRepository implements CollectionRepositoryInterface
 
     public function update(object $collection, array $input): object
     {
+        if(!empty($input['email'])) {
+            $input['user_id'] = $this->userService->defineUserWhoLoaned($input);
+        }
+
+        if($input['loaned'] == "Não") {
+            $input['user_id'] = null;
+        }
+
+        if(!empty($input['user_name'])) {
+            $input['user_name'] = $this->userService->defineUserWhoLoaned($input);
+        }
+
         $collection->fill($input);
         $collection->save();
         $collectionType = $collection->collection()->first();
         $collectionType->name = $input['name'];
         $collectionType->save();
+
         return $collection;
     }
 

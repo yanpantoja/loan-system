@@ -32,8 +32,7 @@ class CollectionCreateRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'O nome do livro é obrigatório.',
-            'name.string' => 'Nome inválido.',
+            'name.required' => 'O nome da coleção é obrigatório.',
             'collection_type.required' => 'O tipo da coleção é obrigatório.'
         ];
     }

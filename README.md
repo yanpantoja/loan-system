@@ -11,7 +11,7 @@ Sistema CRUD de coleções e de empréstimos
 Primeiramente, entre no diretório `loan-system/backend/api` e renomeie o arquivo `.env.example` para `.env`.
 
 
-**+Você pode executar de duas formas**
+**- Você pode executar de duas formas**
 
 
 **1) Pode executar atravês do run.sh da pasta raiz, exemplo:**

@@ -31,4 +31,5 @@ class User extends Model
     {
         return $this->attributes['name'];
     }
+
 }

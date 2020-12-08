@@ -11,7 +11,7 @@ class UserTest extends TestCase
     {
         $user = User::factory()->raw();
         $response = $this->json('POST', '/users', [
-            'name' => $user['name'],
+            'user_name' => $user['name'],
             'email' => $user['email'],
         ]);
 

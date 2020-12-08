@@ -25,9 +25,4 @@ class UserService
         $userCreated = $this->userRepository->createUser($input);
         return $userCreated->id;
     }
-
-    public function updateUser(int $userId, string $name)
-    {
-
-    }
 }

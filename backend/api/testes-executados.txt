@@ -2,3 +2,6 @@ Collection
  [x] Create 3 random collections
  [x] Update collection
 
+User
+ [x] Create user
+

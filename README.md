@@ -14,7 +14,7 @@ Primeiramente, entre no diretório `loan-system/backend/api` e renomeie o arquiv
 - Você pode rodar o projeto de duas formas
 
 
-**1) Pode executar atravês do run.sh da pasta raiz, exemplo:**
+**1) Pode rodar através do run.sh da pasta raiz, exemplo:**
 
 `sh ./run.sh`
 

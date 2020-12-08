@@ -22,14 +22,15 @@ class CollectionFactory extends Factory
     public function definition()
     {
         $collectionsTypes = [
-            'cds',
-            'books',
-            'dvds'
+            'Cd',
+            'Livro',
+            'Dvd'
         ];
 
         return [
             'name' => 'Coleção de Teste',
             'collection_type' => $collectionsTypes[array_rand($collectionsTypes)],
+            'loaned' => 'Não',
         ];
     }
 }

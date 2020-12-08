@@ -3,11 +3,9 @@
 namespace App\Repositories\Eloquent\Collections;
 
 use App\Models\Collection;
-use App\Models\User;
 use App\Repositories\Contracts\CollectionRepositoryInterface;
 use App\Services\UserService;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\DB;
 
 
 class CollectionRepository implements CollectionRepositoryInterface
@@ -20,7 +18,7 @@ class CollectionRepository implements CollectionRepositoryInterface
         $this->userService = $userService;
     }
 
-    public function findAll()
+    public function findAll(): ?LengthAwarePaginator
     {
         return Collection::with('collection')
             ->leftJoin('users AS u', 'collections.user_id', '=','u.id')

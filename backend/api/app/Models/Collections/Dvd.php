@@ -9,7 +9,6 @@ class Dvd extends Model
 {
     protected $fillable = [
         'name',
-        'loaned',
     ];
 
     public function collections()

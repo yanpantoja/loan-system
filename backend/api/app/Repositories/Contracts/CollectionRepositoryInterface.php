@@ -7,7 +7,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface CollectionRepositoryInterface
 {
-    public function findAll();
+    public function findAll(): ?LengthAwarePaginator;
     public function findById(int $id): ?object;
     public function store(array $input): Collection;
     public function update(object $collection, array $input): object;

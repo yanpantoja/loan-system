@@ -1,6 +1,5 @@
 <?php
 
-
 use App\Models\Collection;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
@@ -8,10 +7,10 @@ use Laravel\Lumen\Testing\DatabaseTransactions;
 class CollectionTest extends TestCase
 {
 
-    public function test_create_15_random_collections()
+    public function test_create_3_random_collections()
     {
         $collections = Collection::factory()
-            ->count(15)
+            ->count(3)
             ->make();
 
 
@@ -40,12 +39,15 @@ class CollectionTest extends TestCase
 
     public function test_update_collection()
     {
+
         $parameters = [
             'name' => 'Coleção de teste editada',
-            'loaned' => true
+            'loaned' => 'Sim',
+            'user_name' => 'Yan',
+            'email' => 'yanpantoja@email.com'
         ];
 
-        $this->put("collections/7", $parameters, []);
+        $this->put("collections/1", $parameters, []);
         $this->seeStatusCode(200);
         $this->seeJsonStructure(
             [

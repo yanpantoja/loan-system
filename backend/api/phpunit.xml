@@ -14,4 +14,7 @@
         <env name="CACHE_DRIVER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
     </php>
+    <logging>
+        <log type="testdox-text" target="testes-executados.txt"/>
+    </logging>
 </phpunit>

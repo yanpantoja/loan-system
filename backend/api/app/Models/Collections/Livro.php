@@ -5,11 +5,10 @@ namespace App\Models\Collections;
 use App\Models\Collection;
 use Illuminate\Database\Eloquent\Model;
 
-class Book extends Model
+class Livro extends Model
 {
     protected $fillable = [
         'name',
-        'loaned',
     ];
 
     public function collections()

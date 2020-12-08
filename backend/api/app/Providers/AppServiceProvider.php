@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(
             'Livro',
-            'App\Models\Collections\Book'
+            'App\Models\Collections\Livro'
         );
 
         $this->app->bind(

@@ -22,7 +22,7 @@ class CollectionsController extends Controller
             return response()->json('', 204);
         }
 
-        return response()->json($collections, 201);
+        return response()->json($collections, 200);
     }
 
     public function store(CollectionCreateRequest $request)

@@ -56,15 +56,17 @@ class CollectionRepository implements CollectionRepositoryInterface
             $input['user_id'] = null;
         }
 
-        if(!empty($input['user_name'])) {
-            $input['user_name'] = $this->userService->defineUserWhoLoaned($input);
-        }
+//        if(!empty($input['user_name'])) {
+//            $input['user_name'] = $this->userService->defineUserWhoLoaned($input);
+//        }
 
         $collection->fill($input);
         $collection->save();
         $collectionType = $collection->collection()->first();
         $collectionType->name = $input['name'];
         $collectionType->save();
+
+        $this->userService->updateUser($input);
 
         return $collection;
     }

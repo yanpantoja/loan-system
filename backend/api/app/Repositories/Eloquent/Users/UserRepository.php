@@ -24,9 +24,12 @@ class UserRepository
         ]);
     }
 
-    public function updateUser(int $id, array $input)
+    public function updateUser(array $input)
     {
-
+        $user = User::find($input['user_id']);
+        $user->name = $input['user_name'];
+        $user->email = $input['email'];
+        $user->save();
     }
 
 }

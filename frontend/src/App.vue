@@ -28,7 +28,7 @@
                     <label class="col-form-label col-form-label-lg">Tipo</label>
                     <select class="form-control form-control" v-model="collection.collection_type">
                         <option value="">Selecione o tipo da coleção</option>
-                        <option :value="type" :key="index" v-for="(type, index) in typesCollections">{{ type }}</option>
+                        <option :value="type" :key="index" v-for="(type, index) in typesCollections">{{ type.split('\\')[3] }}</option>
                     </select>
                 </div>
                 <div class="col-12 form-group">
@@ -80,7 +80,7 @@
                 <tbody>
                 <tr v-for="collection of collections" :key="collection.id">
                     <td class="align-middle">{{collection.name}}</td>
-                    <td class="align-middle">{{collection.collection_type.split("\\")[3]}}</td>
+                    <td class="align-middle">{{collection.collection_type.split('\\')[3]}}</td>
                     <td class="align-middle">{{collection.loaned}}</td>
                     <td class="align-middle">
                       <div class="col-md-12">
@@ -90,7 +90,7 @@
                     </td>
                     <td>
                         <button @click="editar(collection)" type="button" class="btn btn-success"><i class="fas fa-edit"></i></button>
-                        <button type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                        <button @click="remover(collection)" type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
                     </td>
                 </tr>
                 </tbody>
@@ -128,9 +128,9 @@ export default {
             collections: [],
             errors: [],
             typesCollections: [
-                'Livro',
-                'Cd',
-                'Dvd'
+                'App\\Models\\Collections\\Livro',
+                'App\\Models\\Collections\\Cd',
+                'App\\Models\\Collections\\Dvd'
             ],
             pagination: {}
         }
@@ -176,6 +176,15 @@ export default {
 
         editar(collection) {
             this.collection = collection
+        },
+
+        remover(collection) {
+            Collections.apagar(collection, collection.id).then(() => {
+                this.listar()
+                this.errors = []
+            }).catch(e => {
+                this.errors = e.response.data.errors
+            })
         },
 
         navigate(page) {
